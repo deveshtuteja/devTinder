@@ -7,7 +7,13 @@ const app = express();
 //Order of routes matter
 
 //this will handle only GET calls to /user
-app.get("/user", (req, res) => {
+//complex routing- /ab?c /a(bc)?d /ab+c /ab*cd or regex-< /a/ , /.fly$/
+// use of ?, +, *, () in routes
+
+app.get("/user/:userId/:name/:password", (req, res) => {
+    // : -> dynamic routes returned through req.params
+    // req.query
+    console.log(req.params);
     res.send({ firstName: "Devesh", lastName: "Tuteja" })
 })
 
