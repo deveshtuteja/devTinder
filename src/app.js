@@ -2,32 +2,22 @@ const express = require("express");
 
 const app = express();
 
-// Request Handler
-//Code starts matching routes from top
-//Order of routes matter
+//we cannot send multiple response to a server. Only one single response
+//app.use("/user",rh1,[rh2,rh3],rh4,rh5)
 
-//this will handle only GET calls to /user
-//complex routing- /ab?c /a(bc)?d /ab+c /ab*cd or regex-< /a/ , /.fly$/
-// use of ?, +, *, () in routes
-
-app.get("/user/:userId/:name/:password", (req, res) => {
-    // : -> dynamic routes returned through req.params
-    // req.query
-    console.log(req.params);
-    res.send({ firstName: "Devesh", lastName: "Tuteja" })
-})
-
-app.post("/user", (req, res) => {
-    res.send("User posted successfully to DB")
-})
-
-app.delete("/user", (req, res) => {
-    res.send("Deleted successfully!")
-})
-
-//this will handle all the http methods api call to /test
-app.use("/test", (req, res) => {
-    res.send("Testing from the server!");
+app.get("/user", (req, res, next) => {
+    console.log("1st route handler");
+    //next function
+    next();
+}, (req, res, next) => {
+    console.log("2nd route handler");
+    next();
+}, (req, res, next) => {
+    console.log("3rd route handler");
+    next();
+}, (req, res, next) => {
+    console.log("4th route handler");
+    res.send("4th handled");
 })
 
 app.listen(7777, () => {
