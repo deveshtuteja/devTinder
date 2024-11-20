@@ -2,19 +2,21 @@ const express = require("express");
 
 const app = express();
 
-//GET-> /user => middleware chain => request handler
+const { adminAuth, userAuth } = require("./middlewares/auth");
+//handle auth MIDDLEWARE for all GET,POST.... Requests
 
-//middleware-> functions that are executed in the middle of methods
-app.use("/", (req, res, next) => {
-    console.log("/ route handler")
-    next();
+app.use("/admin", adminAuth)
+
+app.get("/admin/getUserData", (req, res) => {
+    res.send("USER DATA FETCHED SUCCESSFULLY!")
 })
-app.get("/user", (req, res, next) => {
-    console.log("/user route handler 1");
-    next();
-}, (req, res, next) => {
-    console.log("/user route handler 2");
-    res.send("hi!")
+
+app.get("/admin/deleteUser", (req, res) => {
+    res.send("DATA DELETED SUCCESSFULLY!")
+})
+
+app.get("/user", userAuth, (req, res) => {
+    res.send("User found")
 })
 
 app.listen(7777, () => {
