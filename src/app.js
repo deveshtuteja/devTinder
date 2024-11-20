@@ -2,22 +2,19 @@ const express = require("express");
 
 const app = express();
 
-//we cannot send multiple response to a server. Only one single response
-//app.use("/user",rh1,[rh2,rh3],rh4,rh5)
+//GET-> /user => middleware chain => request handler
 
+//middleware-> functions that are executed in the middle of methods
+app.use("/", (req, res, next) => {
+    console.log("/ route handler")
+    next();
+})
 app.get("/user", (req, res, next) => {
-    console.log("1st route handler");
-    //next function
+    console.log("/user route handler 1");
     next();
 }, (req, res, next) => {
-    console.log("2nd route handler");
-    next();
-}, (req, res, next) => {
-    console.log("3rd route handler");
-    next();
-}, (req, res, next) => {
-    console.log("4th route handler");
-    res.send("4th handled");
+    console.log("/user route handler 2");
+    res.send("hi!")
 })
 
 app.listen(7777, () => {
