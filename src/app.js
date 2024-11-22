@@ -1,25 +1,17 @@
 const express = require("express");
+const connectDb = require("./config/database")
 
 const app = express();
 
-//error handling -> always use try catch
+//first we should connect to DB & then server should listen
 
-app.get("/getUserData", (req, res) => {
-    try {
-        //Connecting to DB and getting data logic
-        throw new Error("abcdef")
-        res.send("Data fetched successfully")
-    } catch (err) {
-        res.status(500).send("An error has occurred")
-    }
+connectDb().then(() => {
+    console.log("Database connection established");
+    app.listen(7777, () => {
+        console.log("Server is listening on port 7777....");
+    })
+}).catch((err) => {
+    console.error("Database cannot be connected");
 })
 
-app.use("/", (err, req, res, next) => {
-    if (err) {
-        res.status(500).send("Unexpected Error")
-    }
-})
 
-app.listen(7777, () => {
-    console.log("Server is listening on port 7777....");
-})
